@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>政綱 - Ignis</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Noto+Serif+TC:wght@500;600;700;900&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #121212;
+            --text-color: #ffffff;
+            --card-bg: #1a1a1a;
+            --accent-orange: #ff6600;
+            --sub-text: #a0a0a0;
+            --border-color: #2a2a2a;
+            --header-bg: rgba(18, 18, 18, 0.85);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; transition: background-color 0.3s, color 0.3s; }
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+        header {
+            position: fixed; top: 0; left: 0; width: 100%; display: flex; justify-content: space-between; align-items: center;
+            padding: 1.2rem 1.8rem; background: var(--header-bg); backdrop-filter: blur(12px); z-index: 1000; border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo { font-family: 'Cinzel', serif; font-size: 1.8rem; font-weight: 800; color: var(--text-color); text-decoration: none; letter-spacing: 2px; }
+        .icon-btn { background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-color); color: var(--text-color); border-radius: 8px; padding: 8px 14px; cursor: pointer; font-size: 1.1rem; }
+        .icon-btn:hover { border-color: var(--accent-orange); color: var(--accent-orange); }
+
+        .menu-drawer { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: var(--bg-color); z-index: 2000; display: none; flex-direction: column; padding: 2rem 1.8rem; overflow-y: auto; }
+        .menu-drawer.active { display: flex; }
+        .drawer-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem; }
+        .menu-list { list-style: none; }
+        .menu-item { border-bottom: 1px solid var(--border-color); padding: 1.1rem 0; }
+        .menu-item a { text-decoration: none; color: var(--text-color); font-family: 'Noto Serif TC', serif; font-size: 1.25rem; font-weight: 600; display: block; }
+        .menu-item a:hover { color: var(--accent-orange); }
+
+        .page-banner { position: relative; padding: 8rem 1.8rem 3rem; text-align: center; border-bottom: 1px solid var(--border-color); background-color: #0d0d0d; }
+        .page-title { font-family: 'Noto Serif TC', serif; font-size: 2.5rem; font-weight: 800; color: #ffffff; }
+
+        .container { max-width: 900px; margin: 0 auto; padding: 3rem 1.5rem; }
+
+        /* IGNIS 理念區塊 */
+        .ignis-concept-grid { display: grid; gap: 1.5rem; margin-bottom: 4rem; }
+        .concept-card { background: var(--card-bg); border: 1px solid var(--border-color); border-left: 4px solid var(--accent-orange); border-radius: 8px; padding: 1.5rem; }
+        .concept-header { display: flex; align-items: baseline; gap: 10px; margin-bottom: 0.5rem; }
+        .concept-letter { font-family: 'Cinzel', serif; font-size: 2rem; font-weight: 900; color: var(--accent-orange); }
+        .concept-word { font-family: 'Cinzel', serif; font-size: 1.3rem; font-weight: 700; color: #ffffff; }
+        .concept-desc { color: var(--sub-text); font-size: 0.95rem; text-align: justify; }
+
+        /* 章節標題 */
+        .section-header { margin: 3.5rem 0 1.5rem 0; border-bottom: 2px solid var(--accent-orange); padding-bottom: 0.5rem; }
+        .section-header h2 { font-family: 'Noto Serif TC', serif; font-size: 1.8rem; font-weight: 800; color: #ffffff; }
+
+        .intro-box { background: rgba(255, 102, 0, 0.05); border: 1px solid rgba(255, 102, 0, 0.2); border-radius: 8px; padding: 1.5rem; margin-bottom: 2rem; color: #dddddd; text-align: justify; }
+
+        /* 項目卡片列表 */
+        .item-list { display: flex; flex-direction: column; gap: 1.2rem; }
+        .item-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 1.5rem; transition: border-color 0.2s; }
+        .item-card:hover { border-color: rgba(255, 102, 0, 0.5); }
+        .item-title { font-family: 'Noto Serif TC', serif; font-size: 1.2rem; font-weight: 700; color: var(--accent-orange); margin-bottom: 0.6rem; }
+        .item-content { color: var(--sub-text); font-size: 0.95rem; text-align: justify; }
+        
+        .sub-item { margin-top: 1rem; padding-top: 1rem; border-top: 1px dashed var(--border-color); }
+        .sub-title { font-weight: 700; color: #ffffff; margin-bottom: 0.3rem; }
+
+        .floating-btn { position: fixed; bottom: 24px; right: 24px; background: var(--accent-orange); color: #000; font-weight: 700; border-radius: 30px; padding: 12px 22px; text-decoration: none; font-size: 0.9rem; z-index: 999; box-shadow: 0 4px 20px rgba(255, 102, 0, 0.3); }
+        .main-footer { text-align: center; padding: 3rem 1.8rem; color: var(--sub-text); font-size: 0.85rem; font-family: 'Cinzel', serif; letter-spacing: 1px; }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <a href="index.html" class="logo">Ignis</a>
+        <button class="icon-btn" id="menuOpen">☰</button>
+    </header>
+
+    <!-- Navigation Drawer -->
+    <div class="menu-drawer" id="menuDrawer">
+        <div class="drawer-header">
+            <a href="index.html" class="logo">Ignis</a>
+            <button class="icon-btn" id="menuClose">✕</button>
+        </div>
+        <ul class="menu-list">
+            <li class="menu-item"><a href="index.html">首頁</a></li>
+            <li class="menu-item"><a href="events.html">活動資訊</a></li>
+            <li class="menu-item"><a href="platform.html">政綱</a></li>
+            <li class="menu-item"><a href="progress.html">政綱進度</a></li>
+            <li class="menu-item"><a href="welfare.html">福利</a></li>
+            <li class="menu-item"><a href="cdgrecord.html">CDG Record</a></li>
+            <li class="menu-item"><a href="contact.html">聯絡我們</a></li>
+        </ul>
+    </div>
+
+    <!-- Page Banner -->
+    <section class="page-banner">
+        <h1 class="page-title">政綱</h1>
+    </section>
+
+    <div class="container">
+
+        <!-- IGNIS 核心理念 -->
+        <div class="ignis-concept-grid">
+            <div class="concept-card">
+                <div class="concept-header">
+                    <span class="concept-letter">I</span>
+                    <span class="concept-word">Impassioned</span>
+                </div>
+                <div class="concept-desc">Ignis以內在的熱情為動力，將真誠投入每一項任務中，用真摯的溫度與堅定不移的信念對待每一件事。我們相信，唯有發自內心的熱忱，才能驅使我們在面對挑戰時堅持不懈，亦能感染身邊的每一位同學，共同為校園帶來正面的改變。</div>
+            </div>
+
+            <div class="concept-card">
+                <div class="concept-header">
+                    <span class="concept-letter">G</span>
+                    <span class="concept-word">Gracious</span>
+                </div>
+                <div class="concept-desc">Ignis致力營造包容的氛圍，以謙遜與尊重為指引，讓友善成為每次互動的基礎，並用心聆聽與珍視不同的聲音。我們相信，每一位同學的意見都值得被重視，唯有建立互相尊重的對話空間，才能真正凝聚共識，推動校園進步。</div>
+            </div>
+
+            <div class="concept-card">
+                <div class="concept-header">
+                    <span class="concept-letter">N</span>
+                    <span class="concept-word">Novel</span>
+                </div>
+                <div class="concept-desc">Ignis不局限於傳統框架，勇於探索全新的領域，將未被發掘且大膽的概念轉化為具體的創新成果。我們敢於跳出既有思維，以嶄新的視角審視校園問題，為同學帶來更多元、更具驚喜的活動與服務體驗。</div>
+            </div>
+
+            <div class="concept-card">
+                <div class="concept-header">
+                    <span class="concept-letter">I</span>
+                    <span class="concept-word">Imaginative</span>
+                </div>
+                <div class="concept-desc">Ignis的思想不受界限所限，善於構想獨特的可能性，透過前瞻性的思維激發活力，創造富有靈感的方案。我們相信，想像力是创新的起點，透過突破常規的構思，我們能為校園生活注入更多色彩與可能性。</div>
+            </div>
+
+            <div class="concept-card">
+                <div class="concept-header">
+                    <span class="concept-letter">S</span>
+                    <span class="concept-word">Sincere</span>
+                </div>
+                <div class="concept-desc">Ignis以真誠與信任為根本，恪守言語與行動的承諾，透過坦誠公開的溝通與全心全意的奉獻，建立持久的信任關係。我們承諾對每一位同學保持透明與誠實，以實際行動兌現每一項承諾，成為大家真正信賴的學生會。</div>
+            </div>
+        </div>
+
+        <!-- I. 引言 -->
+        <div class="section-header">
+            <h2>I. 引言</h2>
+        </div>
+        <div class="intro-box">
+            學生會作為學生與校方溝通的重要渠道，本閣希望透過活動凝聚所有學生，並透過不同服務及爭取事項促進校方與學生的聯繫，為同學帶來更美好、舒適的校園生活。本閣將秉持務實透明的原則，積極跟進各項訴求，讓同學的意見能被聽見，校方的政策亦能更貼近學生需要。為此，本閣規劃了以下政綱內容。
+        </div>
+
+        <!-- II. 爭取事項 -->
+        <div class="section-header">
+            <h2>II. 爭取事項</h2>
+        </div>
+        <div class="item-list">
+            <div class="item-card">
+                <div class="item-title">1. 爭取於更衣室增設風筒</div>
+                <div class="item-content">不少同學在上體育課後或小息進行球類活動後，頭髮會被汗水沾濕，不僅令人感到不適，亦可能產生衛生問題。潮濕的頭髮若不及時處理，在天氣較涼的時候更易引致著涼。再者，本校更衣室設有淋浴間，增設風筒可以讓同學在淋浴後更快吹乾頭髮，減少因濕髮而帶來的不便。有見及此，本閣將向校方爭取於更衣室增設風筒，供有需要的同學使用。</div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-title">2. 爭取為沒有掛鈎的桌子重新添置掛鈎</div>
+                <div class="item-content">由於學校有不少桌子缺乏掛鉤，同學只能把背包放在地上。背包不僅容易沾上灰塵，更會阻塞通道，令老師及同學難以通過，甚至容易絆倒，構成安全隱患。有見及此，本閣將向校方反映受影響的桌子位置，爭取為沒有掛鉤的桌子重新添置掛鉤，讓同學能安全、整潔地擺放背包，改善課室環境及通行安全之餘，亦方便同學使用。</div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-title">3. 爭取更換及翻新儲物櫃</div>
+                <div class="item-content">由於學校有部分儲物櫃已經破損（如透明膠片破裂、嚴重變形等），同學的私隱和財產未受充分保護，影響日常使用體驗之餘，亦造成安全隱憂。有見及此，本閣將向校方反映受損儲物櫃的具體情況，爭取盡快安排更換或翻新破損的儲物櫃，方便同學使用。</div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-title">4. 爭取在音樂日賽前公開評分準則</div>
+                <div class="item-content">本閣留意到歷年音樂日後均不少同學反映，因不清楚音樂日比賽的評分準則，導致賽後結果出現不少爭議，影響比賽的公信力。有見及此，本閣將向校方爭取，在音樂日比賽前正式公開詳細的評分準則，包括音準、節奏、台風、舞台效果及整體表現等各項目的比重。本閣相信，同學若能提前了解評分標準，將能更有方向地準備及排練，從而在比賽中展現最佳狀態。此舉不僅能使評核過程更透明公正，減少不必要的爭議，亦能讓同學參考準則持續改善表現，提升整體比賽水平。</div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-title">5. 爭取 Music Day 初賽使用相同評判</div>
+                <div class="item-content">本閣留意到 Music Day 初賽不同日期會由不同老師進行評分，而不同老師對音準、台風等項目的重視程度各異，導致評分標準不一，嚴重影響比賽的公平性。為確保所有同學能在相同的標準下進行比賽，本閣將爭取 Music Day 初賽的所有日期均由相同的評判評分，確保評分標準一致，減少因評判不同而產生的爭議，讓同學能夠在公平的環境下展現才能，並提升比賽的公信力。</div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-title">6. 爭取增加相機使用場合</div>
+                <div class="item-content">本校目前允許同學於 Sports Day 及 Swimming Gala 等活動攜帶及使用相機。為提供更多空間予同學拍照留念，記錄校園生活的精彩時刻，本閣將向校方爭取，將相機使用範圍擴展至 Music Day 及 Talent Show 等其他大型活動，讓同學能即時記錄珍貴瞬間之餘，亦方便日後重溫校園點滴。我們會與校方積極商討相關安排，包括使用規則及責任指引，確保在不影響活動進行的前提下，為同學創造更多留影的機會。</div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-title">7. 爭取建立系統化資訊科技帳號權限及功能申請機制</div>
+                <div class="item-content">學校近年持續推動 BYOD 計畫，允許同學攜帶 iPad 於課堂上作學習用途。然而，不少同學反映，iPad 缺乏部分所需的應用程式，或未能使用 Google 帳戶的某些功能，影響學習體驗。有見及此，本閣將透過學生會溝通渠道，與資訊科技部門保持緊密聯繫，積極爭取建立一套系統化的處理機制。本閣將設立專門平台，供同學提交開放權限或新增 iPad 應用程式的請求，並盡快轉交相關部門審批。無論請求最終是否獲得通過，本閣均會在 3 至 5 個工作天內，透過 Gmail 通知有關同學審批結果，確保每一項請求都能得到及時且有效的處理。</div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-title">8. 爭取舉辦聯校交換生活動</div>
+                <div class="item-content">學校曾於 22-23 年度與聖馬可中學，以及 25-26 年度與蒙民偉書院、旅港開平商會中學舉辦交換生計畫。不少同學在計畫期間建立的友誼一直延續至今，可見計畫相當成功，深受同學歡迎。為了讓更多同學有機會參與同類型活動，拓闊眼界，認識來自不同學校的朋友，本閣將積極向校方爭取，在未來舉辦更多交換生計畫及其他聯校交流活動，讓同學能夠走出校園，體驗更豐富多元的學習生活，為中學生涯留下珍貴回憶。</div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-title">9. 爭取同學於第一學期考試前可選擇性清理儲物櫃</div>
+                <div class="item-content">不少同學會將不常用的書本及雜物存放於課室的儲物櫃中，而學校現時要求同學於考試前清空整個儲物櫃。然而，在上課天將大量沉重的書本雜物搬運回家，對同學來說頗為不便。有見及此，本閣將向校方爭取，同學無需在第一次考試前完全清空儲物櫃，而是可以自行決定將與考試科目無關的物品繼續存放於儲物櫃內。</div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-title">10. 爭取學生於酷熱天氣下（將軍澳區6:30am達30度或以上）可穿著運動服回校</div>
+                <div class="item-content">鑑於近年全球暖化加劇，夏季氣溫持續攀升，炎熱天氣日漸頻繁。在酷熱環境下，同學穿著整齊校服上課，體感遠比穿著運動服更為悶熱，容易導致不適。有見及此，本閣將向校方積極爭取，當將軍澳地區氣溫在 6:30am 達 30 度或以上時，允許學生穿著運動服回校上課，讓同學能在炎夏中保持更舒適的學習狀態。</div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-title">11. 放寬申請多個 ND 職位的標準</div>
+                <div class="item-content">鑑於不少同學反映申請多個 ND 職位的標準過於嚴格，且不少未達標準的同學亦認為自己仍有不少餘力，可以擔任多一個 ND 職位。有見及此，本閣將向校方積極爭取將中一至中四同學的標準由「上學年全級名次前30名」放寬至「上學年平均分高過全級中位數」。此外，本閣將爭取將中五同學的標準由「上學年英文、數學及選修科每科平均分不低於60分，中文及公民與社會發展科平均分不低於55分」放寬至「上學年英文、數學及兩科選修科平均分不低於60分，中文及公民與社會發展科平均分不低於55分」，讓更多同學有機會接觸更多崗位。</div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-title">12. 爭取取消使用 MDM，改為使用 Wi-Fi 攔截不適用網站</div>
+                <div class="item-content">鑑於現行流動設備管理系統（MDM）對同學的個人平板電腦造成較多操作上的限制，容易造成設備使用不便。有見及此，本閣將向校方積極爭取取消強制安裝及使用 MDM 系統，改為於校園 Wi-Fi 網絡層面實施網站過濾及攔截。本閣建議校方僅於校內透過校園網絡封鎖娛樂及無關學習的網站，既能確保課堂學習專注度，亦能保障同學對個人裝置的自主權與私隱。本閣期望透過此舉，平衡電子學習效率與學生權益，營造更具信任度的學習環境。</div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-title">13. 爭取更換殘破體育設備</div>
+                <div class="item-content">鑑於校內部分體育設備如籃球、羽毛球拍等，因長期使用而出現磨損及殘破情況，嚴重影響同學在體育課及課外活動時的運動體驗。有見及此，本閣將向校方積極爭取撥款，全面檢視並更換老舊及損壞的體育器材。本閣期望透過此舉，優化校園體育資源，提升同學的運動體驗，鼓勵大家積極參與體育鍛鍊。</div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-title">14. 爭取將 ESW 的主要舉辦地點改成禮堂</div>
+                <div class="item-content">本閣考慮到同學在夏天及冬天參與 ESW 活動時排隊時間過長，分別因為過於炎熱和寒冷感到不適，EA 亦需長時間當值，影響同學的參與體驗及 EA 工作狀態。有見及此，本閣將向校方爭取將 ESW 的主要舉辦地點改為禮堂，讓同學能在更舒適的環境下參與活動，同時減輕 EA 當值的負擔。</div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-title">15. 爭取翻新損壞窗框</div>
+                <div class="item-content">校內部分窗框因長期使用而出現老化、鬆脫或損壞情況，不僅影響外觀，亦可能構成安全隱患。有見及此，本閣將向校方反映具體位置，爭取盡快安排檢查及翻新損壞的窗框，確保校園環境安全整潔。</div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-title">16. 爭取於廁格內設置廁板清潔液以及固體清香膠</div>
+                <div class="item-content">為保持洗手驗整潔衛生，本閣將積極爭取在洗洗格內設置廁板清潔液，並定期放置固體清香膠，以消除洗手間內的異味。本閣相信，此舉能有效改善校內洗手間的衛生狀況，讓同學使用時更為安心舒適。</div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-title">17. 爭取翻新有蓋操場的康樂設施</div>
+                <div class="item-content">有蓋操場的康樂設施（如：籃球機）因長期使用而出現老化及損壞，影響同學小息及課餘時間的使用體驗。有見及此，本閣將向校方積極爭取翻新相關康樂設施，為同學提供更安全、多元的休憩空間。</div>
+            </div>
+        </div>
+
+        <!-- III. 服務 -->
+        <div class="section-header">
+            <h2>III. 服務</h2>
+        </div>
+        <div class="item-list">
+            <div class="item-card">
+                <div class="item-title">1. 提供冰涼濕紙巾及冰涼噴霧作消暑用途</div>
+                <div class="item-content">不少同學於體育課或戶外活動後經常感到酷熱難耐，單靠飲用冰水未必能即時緩解身體熱感。因此，本閣將於學生會室提供冰涼濕紙巾及冰涼噴霧，供有需要的同學取用，希望協助同學對抗炎熱天氣。本閣亦會每週檢查用品存量及有效日期，確保其供應充足及使用安全。</div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-title">2. 提供驅蚊用品</div>
+                <div class="item-content">不少同學反映學校蚊患問題由來已久，在潮濕天氣下尤為嚴重。由於校園內樹蔭較多，容易滋生蚊蟲，不僅影響整體衛生，亦對同學的日常學習與課外活動造成困擾。為打造一個更潔淨、舒適的校園環境，本閣將於學生會室及更衣室內提供蚊怕水、防蚊貼等驅蚊用品，並定期檢查用品存量，確保供應充足，供有需要的同學隨時取用。</div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-title">3. 提供紙箱借用服務</div>
+                <div class="item-content">每逢考試前夕，學校均會要求同學清空儲物櫃，不少同學需將大量沉重書本搬運回家，造成諸多不便。有見及此，本閣將於須要清空儲物櫃的時段提供紙箱借用服務。有需要的同學可到學生會室領取紙箱協助搬運，使用完畢後歸還即可，既提高搬運效率，亦可減輕同學負擔。</div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-title">4. 提供售賣暖包服務</div>
+                <div class="item-content">本閣考慮到天氣寒冷時，同學的上課表現及專注力或會受到影響。為協助同學應對低溫天氣，本閣將提供暖包售賣服務，有需要的同學可到學生會室購買。此服務能讓同學不用走出校門，亦能在寒冷的日子中保持手部溫暖，提升學習效率。</div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-title">5. 提供女性衛生用品</div>
+                <div class="item-content">本閣考慮到女同學在生理週期時可能會遇到突發情況，為了讓同學能夠安心上課，無需因此事而感到困擾，本閣將於女廁提供去漬筆及女性衛生用品，供有需要的同學隨時使用，以備不時之需。本閣亦會定期檢查用品存量，確保供應充足。</div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-title">6. 提供雪櫃及微波爐供同學使用</div>
+                <div class="item-content">本閣將繼續為同學提供雪櫃及微波爐服務，供有需要的同學冷凍或加熱食物，以便利同學。同學可於課餘時間自行到學生會室使用相關設備，本閣會定期清潔及檢查設備，確保衛生安全，讓同學能夠安心使用。</div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-title">7. 於大型活動提供即影即有服務</div>
+                <div class="item-content">為了讓同學的校園生活增添更多難忘回憶，本閣將於大型活動期間提供即影即有服務，為師生拍下照片，並可即時取回照片，在美好的時刻留下紀念。服務將於指定地點提供，並由本閣成員幫助拍攝，該地點將會在活動前公佈。</div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-title">8. 於體育活動期間提供物資補給</div>
+                <div class="item-content">鑑於 Sports Day 及新春長跑等體育活動對體能消耗較大，部分同學在比賽後可能出現肌肉疲勞或輕微不適，影響餘下比賽表現。有見及此，本閣將於上述活動期間提供水、能量飲品、退熱貼及肌肉貼等物資補給，供有需要的同學使用，希望同學能在比賽期間維持最佳狀態，減少受傷風險。</div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-title">9. 於 Music Day 及 Talent Show 提供手燈</div>
+                <div class="item-content">為活躍及帶動現場氣氛，提升 Music Day 及 Talent Show 的互動性，本閣將繼續購入手燈，並於活動期間派發。台下同學及老師可透過使用手燈，表示對表演者的支持，並盡情投入活動。借取手燈的同學需於活動結束後歸還，以便循環再用。</div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-title">10. 與 Campus TV 合作提供攝錄服務</div>
+                <div class="item-content">本閣將與 Campus TV 保持緊密合作，於校方各項活動及學生會活動期間進行攝影及影片拍攝，為同學記錄珍貴時刻。同時，本閣將與 Campus TV 商討改善同學取回活動相片及影片的流程，令同學能夠更快捷方便地透過 Campus TV 及學生會溝通渠道取回自己的相片，重溫校園生活中的精彩瞬間。</div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-title">11. 提供雨傘借用及相關服務</div>
+                <div class="item-content">考慮到同學或會因突如其來的雨天而導致各種不便，有見及此，本閣將提供雨傘借用服務，於學生會室或學校門口向當天沒有攜帶雨傘或有需要的同學借出雨傘。同學使用完畢後須儘快歸還，本閣亦會登記借用人訊息，以確保資源得以妥善管理。此外，本閣將積極考慮加入更多便利設施，如雨傘除水器等，方便同學在下雨天仍能如常上課及進行活動，減少雨天帶來的不便。</div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-title">12. 提供學生會意見箱及 Google Form 收集意見</div>
+                <div class="item-content">本閣希望鼓勵同學主動提出對學校政策或其他方面的疑問或意見。透過意見箱及 Google Form 提交的意見，將會在經過簡單審核後直接轉交至相關負責老師或部門，並在獲得回應後於 3 至 5 個工作天內透過社交媒體公開回覆。本閣希望透過此服務鼓勵同學積極反映意見，並確保所有同學提出的意見均能得到相關老師的回應及跟進，共同推動校園持續進步。</div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-title">13. 於更衣室內提供濕紙巾</div>
+                <div class="item-content">每到炎熱的夏天，許多同學在體育課或各類活動後感到酷熱，大汗淋漓，亦可能引起異味，影響個人舒適度及衛生。有見及此，本閣將於更衣室內提供濕紙巾，供有需要的同學使用。同學可選擇於活動前後使用，以減少汗水和異味，保持身體清爽，讓同學於活動後能更舒適地返回課室上課，無需受流汗或衛生問題困擾。</div>
+            </div>
+        </div>
+
+        <!-- IV. 大型活動 -->
+        <div class="section-header">
+            <h2>IV. 大型活動</h2>
+        </div>
+        <div class="item-list">
+            <div class="item-card">
+                <div class="item-title">1. Talent Show</div>
+                <div class="item-content">為了讓同學能夠透過不同的舞台發光發亮，本閣將會舉辦 Talent Show 作為平台，讓同學展現自己獨特的才能。活動將安排於試後活動期間舉行，讓同學能從繁重的學業中得到放鬆身心的機會，同時欣賞身邊同學的精彩演出。為了促進師生交流，讓同學及老師能夠透過活動更認識彼此，本閣將會特設師生組別，鼓勵同學與老師一同參與 Talent Show，共同綵排及演出，在合作中建立更緊密的師生關係。此外，本閣亦會積極考慮並嘗試邀請名人以嘉賓身份出席活動，以增添活動氣氛。本閣相信，Talent Show 不僅是一個讓同學展示才華的重要舞台，更是一個凝聚全校師生、共同創造美好回憶的機會。</div>
+            </div>
+        </div>
+
+        <!-- V. 小型活動 -->
+        <div class="section-header">
+            <h2>V. 小型活動</h2>
+        </div>
+        <div class="item-list">
+            <div class="item-card">
+                <div class="item-title">1. 體育比賽</div>
+                <div class="item-content">
+                    基於本校同學對運動的熱忱，本閣特意舉辦體育比賽。透過此比賽，可以促進班內凝聚力，增強同學對班級的歸屬感，培養同學的團隊合作精神及體育精神。比賽包括班際籃球及羽毛球比賽，讓不同運動興趣的同學均有機會參與。此外透過自由組隊的足球賽，師生間可互相切磋，交流球技及心得，促進校園共融氣氛。本閣相信，體育比賽不僅能讓同學在學業之餘舒展身心，展現才能，更能透過團隊競賽加深彼此之間的默契與友誼。
+                    
+                    <div class="sub-item">
+                        <div class="sub-title">1.1 班際籃球比賽</div>
+                        班際籃球比賽會使用全場進行，每班需要派出男女各 5 名球員及最多男女各 2 名後備成員參賽。高中組的比賽將會於上學期放學後進行，使中六的同學亦能參與此活動，在畢業前創造青春熱血的回憶，在中學生涯的尾聲添上精彩的一筆。初中組的比賽則會於下學期放學後及週會期間進行。籃球比賽將會分為男女舉行，男子組每場 15 分鐘，女子組 10 分鐘，雙方均可要求一次 30 秒暫停。比賽期間不停錶，其他規則主要按照 FIBA 國際籃球規則進行。
+                    </div>
+
+                    <div class="sub-item">
+                        <div class="sub-title">1.2 班際羽毛球比賽</div>
+                        班際羽毛球比賽將會於該組別籃球比賽結束後舉行，每班需要派出男女各 2 名隊員，及男女最多各 2 名後備球員參賽。比賽每局 10 分鐘，不設中場暫停。其他規則主要按照世界羽毛球聯會比賽規則進行。
+                    </div>
+
+                    <div class="sub-item">
+                        <div class="sub-title">1.3 師生足球比賽</div>
+                        師生足球比賽分男女兩組，不分年齡班級，學生可自由組成五人正選及最多兩人後備的隊伍，亦能夠邀請老師入隊。最多 8 隊，比賽每局 20 分鐘，雙方均可要求 1 次 30 秒暫停。其他規則按照 FIFA 五人足球球例進行。
+                    </div>
+                </div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-title">2. 星火灼夜</div>
+                <div class="item-content">為促進師生關係，拉近你和我的距離。本閣將舉辦一系列由下午到晚上的活動，讓師生體驗另一面的主恩生活。師生於活動中能一起參與一連串的集體活動，如密室逃脫、劇本殺、燒烤等。每天於忙碌的學習生活中奔波，相信師生很久都沒有真正放鬆休息。於活動中，師生不但可以體驗難得的寧靜校園生活，更可以不受干擾地盡情傾談、圍爐夜話，為師生帶來難忘的一夜。</div>
+            </div>
+        </div>
+
+        <!-- VI. 其他活動 -->
+        <div class="section-header">
+            <h2>VI. 其他活動</h2>
+        </div>
+        <div class="item-list">
+            <div class="item-card">
+                <div class="item-title">1. 校政問答大會</div>
+                <div class="item-content">此活動將會於初中及高中週會期間舉行。同學在日常生活中對學校都有不同的疑問或意見，因此，本閣將會舉辦校政問答大會供同學向相關負責老師提問校政問題。透過此活動，學生對學校政策有更清晰的了解，亦能明白政策訂立背後的原因及意義。</div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-title">2. 聖誕聯歡會畫黑板比賽</div>
+                <div class="item-content">為增添聖誕氣氛，本閣將會舉辦聖誕聯歡會畫黑板比賽。此比賽除了可以為各個教室增添節日氛圍，各班同學更能夠透過畫黑板期間的過程，發揮班級的團隊合作以及動用每一個人的創造想像力，凝聚班級，創作出一幅共同完成的畫作。</div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-title">3. 中六打氣周活動</div>
+                <div class="item-content">
+                    文憑試將近，為了向中六同學打氣，鼓勵同學積極面對考試壓力，舒緩緊張情緒，支持同學應對 DSE，本閣將會於中六 Last Day 前舉辦一連串打氣活動。
+                    <div class="sub-item"><div class="sub-title">3.1 中六打氣牆</div>打氣牆將會設於地下或二樓繪馬牆，各個同學可以在牆上留下打氣鼓勵的字句，透過此方式，向中六同學打氣，給予鼓勵。</div>
+                    <div class="sub-item"><div class="sub-title">3.2 中六打氣包</div>本閣將會提供打氣包，包含零食福袋及鼓勵字卡等，為中六同學打氣，面對 DSE。</div>
+                    <div class="sub-item"><div class="sub-title">3.3 文具售賣服務</div>本閣將會於打氣周期間以低於市價的價格售賣文具，讓同學可以藉此機會，購入一批新文具應試。</div>
+                    <div class="sub-item"><div class="sub-title">3.4 點歌服務</div>本閣將會收集打氣卡，並透過中央廣播系統點播歌曲，以及讀出鼓勵加油的字句，為中六同學帶來動力。</div>
+                </div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-title">4. 敬師日</div>
+                <div class="item-content">主恩的老師們毫不吝嗇向同學們傳遞著溫暖，絕對值得各位同學的敬意。本閣將於活動當天於地下設置壁報或於二樓設置繪馬牆，供同學寫下對老師的感激話語，亦會為各位同學拍攝敬師日話語再製成一段短片，提供平台予同學表達對老師的心意。另外，本閣亦會贈送小禮物予一眾老師，感謝老師多年來對我們的指導與照顧。</div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-title">5. 手機攝影比賽</div>
+                <div class="item-content">為了讓同學欣賞身邊的人和事，本閣將會舉辦手機攝影比賽。比賽將會限制以手機拍攝相片，使所有同學能夠使用身邊最平凡的工具，記錄下最美妙的瞬間。比賽將會提供約 5 個不同主題供同學發揮。活動將會持續全年，並邀請老師擔任評審，選出優勝者。本閣亦將會積極研究於校內展示比賽優秀作品。</div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-title">6. CDG Record</div>
+                <div class="item-content">本閣將會設立專屬於主恩人的紀錄大典，無論是學術或是娛樂的卓越成就，都可能納入其中。同學可以在空餘時間挑戰其他主恩人創下的紀錄或超越自我，在挑戰的過程中一嘗滿足的滋味，為校園生活增添一點色彩。</div>
+            </div>
+        </div>
+
+        <!-- VII. 聯校活動 -->
+        <div class="section-header">
+            <h2>VII. 聯校活動</h2>
+        </div>
+        <div class="item-list">
+            <div class="item-card">
+                <div class="item-title">1. 聯校聖誕聯歡會</div>
+                <div class="item-content">除了校內的聖誕聯歡會，本閣亦將會舉辦聯校聖誕聯歡會。透過是次活動，同學能認識來自其他學校的學生，並透過聯歡會活動建立友誼，拓闊自己的社交圈子。本閣亦希望透過此活動，使同學更投入於聖誕氣氛中，放鬆身心靈。</div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-title">2. 聯校試卷交換</div>
+                <div class="item-content">中六同學即將應對 DSE，為了使同學更有準備，本閣將會聯同數間學校舉辦聯校試卷交換計畫，互相交換中六 Mock Exam 的試卷，使同學熟悉更多不同題型，為 DSE 做好最佳準備。</div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-title">3. 聯校舞蹈及樂隊比賽</div>
+                <div class="item-content">本校很多同學具備舞蹈方面的才能，為了提供一個舞台給同學們展耀才能，本閣將會聯同友校舉辦聯校舞蹈及樂隊比賽。透過是次活動，同學能夠展現自己的才能，亦能認識其他學校的學生，擴闊社交圈子。本閣亦希望藉此次活動，讓同學在忙碌的學業中得到放鬆。</div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-title">4. 聯校英文口試練習</div>
+                <div class="item-content">為了讓中五、六同學可以有更多口試練習機會，本閣將會與其他學校舉辦口試練習。希望可以藉此令中五六同學有更多學習機會，為公開試做好準備。</div>
+            </div>
+        </div>
+
+        <!-- VIII. 聯盟學校 -->
+        <div class="section-header">
+            <h2>VIII. 聯盟學校</h2>
+        </div>
+        <div class="intro-box">
+            本閣邀請了來自全港不同地區的中學學生會內閣建立聯校關係，並且透過合作舉辦聯校活動。希望透過聯校合作增加同學認識其他學校學生的機會，並拓闊眼界。
+        </div>
+
+        <!-- IX. 溝通渠道 -->
+        <div class="section-header">
+            <h2>IX. 溝通渠道</h2>
+        </div>
+        <div class="intro-box">
+            本閣希望所有學生都能夠了解校內的各種大小決策，並了解學生會作為學生組織的實際運營狀況。有見及此，本閣將會於學生會網站公開透明地展示學生會的會議記錄並定期發布財政資料。另外，本閣相信所有同學均可以隨時就學校政策及環境提出意見。本閣將會透過學生會網站及其他溝通渠道持續更新有關校園內的各樣大小事。同時，本閣會持續跟進各項校園內的問題，讓同學可以及時反映學校內的不同問題，為同學締造更美好的學習環境。
+        </div>
+        <div class="item-list">
+            <div class="item-card">
+                <div class="item-title">1. 社交媒體</div>
+                <div class="item-content">本閣將會開設 Instagram 帳號。帳號將會用於發布有關學生會的最新資訊，例如活動宣布及服務詳情等。同學亦可以透過該帳戶聯繫內閣成員，查詢有關活動詳情或反映意見。</div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-title">2. 學校電郵</div>
+                <div class="item-content">本閣將定期透過學校電郵發佈有關活動的資訊、活動詳情等，方便同學獲取最新消息。另外，同學可透過私訊本閣 Instagram 帳號，或於限時動態內開版的意見收集箱，發表對本閣的相關意見，有助本閣為同學提供最佳服務。</div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-title">3. 網站</div>
+                <div class="item-content">本閣將會設立網站。網站將會提供有關本閣服務及活動詳情，以及福利優惠地圖列表、附近餐廳列表等，提供一站式平台查閱所有學生會提供的資訊內容。同時網站亦會作為主要收集同學意見的渠道之一，並將相關意見轉達予有關部門。</div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-title">4. 活動問卷調查</div>
+                <div class="item-content">本閣將會於部分活動或服務完結後發送問卷調查，收集同學對活動的意見，作檢討及日後學生會參考之用。</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 懸浮按鈕 -->
+    <a href="contact.html" class="floating-btn">意見箱</a>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <p>© cdgfss 2627 nominated student union cabinet ALL RIGHTS RESERVED.</p>
+    </footer>
+
+    <script>
+        const menuDrawer = document.getElementById('menuDrawer');
+        document.getElementById('menuOpen').addEventListener('click', () => {
+            menuDrawer.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        document.getElementById('menuClose').addEventListener('click', () => {
+            menuDrawer.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+    </script>
+</body>
+</html>

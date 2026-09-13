@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>聯絡我們 - Ignis</title>
+    <!-- 高級字體庫 -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Noto+Serif+TC:wght@500;600;700;900&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #121212;
+            --text-color: #ffffff;
+            --card-bg: #1a1a1a;
+            --accent-orange: #ff6600;
+            --sub-text: #a0a0a0;
+            --border-color: #2a2a2a;
+            --header-bg: rgba(18, 18, 18, 0.85);
+            --input-bg: #222222;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 頂部導覽列 */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 1.8rem;
+            background: var(--header-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--text-color);
+            text-decoration: none;
+            letter-spacing: 2px;
+        }
+
+        .icon-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            border-radius: 8px;
+            padding: 8px 14px;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        .icon-btn:hover {
+            border-color: var(--accent-orange);
+            color: var(--accent-orange);
+        }
+
+        /* 漢堡選單 Drawer */
+        .menu-drawer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: var(--bg-color);
+            z-index: 2000;
+            display: none;
+            flex-direction: column;
+            padding: 2rem 1.8rem;
+            overflow-y: auto;
+        }
+
+        .menu-drawer.active {
+            display: flex;
+        }
+
+        .drawer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .menu-list {
+            list-style: none;
+        }
+
+        .menu-item {
+            border-bottom: 1px solid var(--border-color);
+            padding: 1.1rem 0;
+        }
+
+        .menu-item a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-family: 'Noto Serif TC', serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            display: block;
+        }
+
+        .menu-item a:hover {
+            color: var(--accent-orange);
+        }
+
+        /* Banner 區塊 */
+        .page-banner {
+            position: relative;
+            padding: 8rem 1.8rem 3rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+            background-color: #0d0d0d;
+        }
+
+        .page-title {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            color: var(--sub-text);
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem;
+        }
+
+        /* 表單卡片 */
+        .contact-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2.2rem 1.8rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--text-color);
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.85rem 1rem;
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: #ffffff;
+            font-family: inherit;
+            font-size: 0.95rem;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-orange);
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: var(--accent-orange);
+            color: #000;
+            font-weight: 700;
+            border: none;
+            border-radius: 8px;
+            padding: 0.95rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.2s;
+        }
+
+        .submit-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .alert-success {
+            display: none;
+            background: rgba(255, 102, 0, 0.15);
+            border: 1px solid var(--accent-orange);
+            color: var(--accent-orange);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-size: 0.95rem;
+        }
+
+        /* Footer */
+        .main-footer {
+            text-align: center;
+            padding: 3rem 1.8rem;
+            color: var(--sub-text);
+            font-size: 0.85rem;
+            font-family: 'Cinzel', serif;
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 600px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <a href="index.html" class="logo">Ignis</a>
+        <button class="icon-btn" id="menuOpen">☰</button>
+    </header>
+
+    <!-- Navigation Drawer -->
+    <div class="menu-drawer" id="menuDrawer">
+        <div class="drawer-header">
+            <a href="index.html" class="logo">Ignis</a>
+            <button class="icon-btn" id="menuClose">✕</button>
+        </div>
+        <ul class="menu-list">
+            <li class="menu-item"><a href="index.html">首頁</a></li>
+            <li class="menu-item"><a href="events.html">活動資訊</a></li>
+            <li class="menu-item"><a href="platform.html">政綱</a></li>
+            <li class="menu-item"><a href="progress.html">政綱進度</a></li>
+            <li class="menu-item"><a href="welfare.html">福利</a></li>
+            <li class="menu-item"><a href="cdgrecord.html">CDG Record</a></li>
+            <li class="menu-item"><a href="contact.html">聯絡我們</a></li>
+        </ul>
+    </div>
+
+    <!-- Page Banner -->
+    <section class="page-banner">
+        <h1 class="page-title">聯絡我們</h1>
+        <p class="page-subtitle">CONTACT IGNIS — 歡迎隨時提供寶貴意見</p>
+    </section>
+
+    <div class="container">
+        <div class="contact-card">
+            <div class="alert-success" id="successAlert">
+                ✓ 感謝您的提交！我們已收到您的寶貴意見，將會盡快跟進。
+            </div>
+            
+            <form id="contactForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="className">班別 *</label>
+                        <input type="text" id="className" placeholder="例如：5A" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="studentName">姓名 *</label>
+                        <input type="text" id="studentName" placeholder="例如：陳大文" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">聯絡電郵 *</label>
+                    <input type="email" id="email" placeholder="example@school.edu.hk" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="feedback">意見內容 *</label>
+                    <textarea id="feedback" rows="6" placeholder="請詳細寫下您的寶貴意見或查詢內容..." required></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">送出意見</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <p>© 2026 cdgfss 2627 nominated student union cabinet ALL RIGHTS RESERVED.</p>
+    </footer>
+
+    <script>
+        const menuDrawer = document.getElementById('menuDrawer');
+        document.getElementById('menuOpen').addEventListener('click', () => {
+            menuDrawer.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        document.getElementById('menuClose').addEventListener('click', () => {
+            menuDrawer.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+
+        // 表單提交事件
+        const contactForm = document.getElementById('contactForm');
+        const successAlert = document.getElementById('successAlert');
+
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            // 顯示提交成功訊息
+            successAlert.style.display = 'block';
+            contactForm.reset();
+
+            setTimeout(() => {
+                successAlert.style.display = 'none';
+            }, 4000);
+        });
+    </script>
+</body>
+</html>

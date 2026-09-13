@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CDG Record - Ignis</title>
+    <!-- 高級字體庫 -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Noto+Serif+TC:wght@500;600;700;900&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #121212;
+            --text-color: #ffffff;
+            --card-bg: #1a1a1a;
+            --accent-orange: #ff6600;
+            --sub-text: #a0a0a0;
+            --border-color: #2a2a2a;
+            --header-bg: rgba(18, 18, 18, 0.85);
+            --input-bg: #222222;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 頂部導覽列 */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 1.8rem;
+            background: var(--header-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--text-color);
+            text-decoration: none;
+            letter-spacing: 2px;
+        }
+
+        .icon-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            border-radius: 8px;
+            padding: 8px 14px;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        .icon-btn:hover {
+            border-color: var(--accent-orange);
+            color: var(--accent-orange);
+        }
+
+        /* 漢堡選單 Drawer */
+        .menu-drawer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: var(--bg-color);
+            z-index: 2000;
+            display: none;
+            flex-direction: column;
+            padding: 2rem 1.8rem;
+            overflow-y: auto;
+        }
+
+        .menu-drawer.active {
+            display: flex;
+        }
+
+        .drawer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .menu-list {
+            list-style: none;
+        }
+
+        .menu-item {
+            border-bottom: 1px solid var(--border-color);
+            padding: 1.1rem 0;
+        }
+
+        .menu-item a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-family: 'Noto Serif TC', serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            display: block;
+        }
+
+        .menu-item a:hover {
+            color: var(--accent-orange);
+        }
+
+        /* Banner 區塊 */
+        .page-banner {
+            position: relative;
+            padding: 8rem 1.8rem 3rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+            background-color: #0d0d0d;
+        }
+
+        .page-title {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            color: var(--sub-text);
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem;
+        }
+
+        /* 看板數據牆 */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1.2rem;
+        }
+
+        .stat-number {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--accent-orange);
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--sub-text);
+            margin-top: 0.3rem;
+        }
+
+        .section-title {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 1.5rem;
+            border-left: 3px solid var(--accent-orange);
+            padding-left: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* 紀錄卡片 */
+        .record-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .record-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.8rem;
+            position: relative;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+        }
+
+        .record-card.highlight {
+            border-color: rgba(255, 102, 0, 0.4);
+        }
+
+        .record-badge-official {
+            position: absolute;
+            top: 1.2rem;
+            right: 1.2rem;
+            background: rgba(255, 102, 0, 0.15);
+            border: 1px solid var(--accent-orange);
+            color: var(--accent-orange);
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        .record-item-title {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 0.6rem;
+            padding-right: 110px;
+        }
+
+        .record-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--accent-orange);
+            margin-bottom: 0.8rem;
+        }
+
+        .record-desc {
+            color: var(--sub-text);
+            font-size: 0.92rem;
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+
+        .record-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--border-color);
+            padding-top: 0.8rem;
+            font-size: 0.8rem;
+            color: #777;
+        }
+
+        .record-holder {
+            color: var(--text-color);
+            font-weight: 600;
+        }
+
+        /* 無紀錄時的空白提示 */
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1.5rem;
+            background: var(--card-bg);
+            border: 1px dashed var(--border-color);
+            border-radius: 12px;
+            color: var(--sub-text);
+            font-size: 0.95rem;
+        }
+
+        /* 投稿 / 挑戰紀錄表單區 */
+        .submission-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem 1.8rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--text-color);
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: #ffffff;
+            font-family: inherit;
+            font-size: 0.95rem;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-orange);
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: var(--accent-orange);
+            color: #000;
+            font-weight: 700;
+            border: none;
+            border-radius: 8px;
+            padding: 0.9rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.2s;
+        }
+
+        .submit-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .alert-success {
+            display: none;
+            background: rgba(255, 102, 0, 0.15);
+            border: 1px solid var(--accent-orange);
+            color: var(--accent-orange);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-size: 0.95rem;
+        }
+
+        /* 懸浮按鈕 */
+        .floating-btn {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: var(--accent-orange);
+            color: #000;
+            font-weight: 700;
+            border-radius: 30px;
+            padding: 12px 22px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            z-index: 999;
+            box-shadow: 0 4px 20px rgba(255, 102, 0, 0.25);
+        }
+
+        /* Footer */
+        .main-footer {
+            text-align: center;
+            padding: 3rem 1.8rem;
+            color: var(--sub-text);
+            font-size: 0.85rem;
+            font-family: 'Cinzel', serif;
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 600px) {
+            .stats-grid {
+                grid-template-columns: repeat(1, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <a href="index.html" class="logo">Ignis</a>
+        <button class="icon-btn" id="menuOpen">☰</button>
+    </header>
+
+    <!-- Navigation Drawer -->
+    <div class="menu-drawer" id="menuDrawer">
+        <div class="drawer-header">
+            <a href="index.html" class="logo">Ignis</a>
+            <button class="icon-btn" id="menuClose">✕</button>
+        </div>
+        <ul class="menu-list">
+            <li class="menu-item"><a href="index.html">首頁</a></li>
+            <li class="menu-item"><a href="events.html">活動資訊</a></li>
+            <li class="menu-item"><a href="platform.html">政綱</a></li>
+            <li class="menu-item"><a href="progress.html">政綱進度</a></li>
+            <li class="menu-item"><a href="welfare.html">福利</a></li>
+            <li class="menu-item"><a href="cdgrecord.html">CDG Record</a></li>
+            <li class="menu-item"><a href="contact.html">聯絡我們</a></li>
+        </ul>
+    </div>
+
+    <!-- Page Banner -->
+    <section class="page-banner">
+        <h1 class="page-title">CDG Record</h1>
+    </section>
+
+    <div class="container">
+
+        <!-- 看板數據牆 (全部歸 0) -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="verifiedCount">0</div>
+                <div class="stat-label">已認證校園紀錄</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="submissionCount">0</div>
+                <div class="stat-label">累計挑戰／投稿</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">2026</div>
+                <div class="stat-label">RECORD YEAR</div>
+            </div>
+        </div>
+
+        <!-- 官方認證紀錄列表 -->
+        <h2 class="section-title">校園紀錄名人堂</h2>
+        <div class="record-list" id="recordList">
+            <!-- 歸 0 空白提示 -->
+            <div class="empty-state" id="emptyState">
+                目前尚無認證紀錄，歡迎於下方提交，成為首位紀錄保持人！
+            </div>
+        </div>
+
+        <!-- 投稿／發起挑戰表單 -->
+        <h2 class="section-title">投稿新紀錄／發起挑戰</h2>
+        <div class="submission-card">
+            <div class="alert-success" id="successAlert">
+                ✓ 申請已提交！Ignis 評審小組將核對影片與數據並進行官方認證。
+            </div>
+            <form id="recordForm">
+                <div class="form-group">
+                    <label for="type">申請類型 *</label>
+                    <select id="type" required>
+                        <option value="創立全新校園紀錄">創立全新校園紀錄</option>
+                        <option value="挑戰／刷新現有紀錄">挑戰／刷新現有紀錄</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="title">紀錄名稱 / 項目主題 *</label>
+                    <input type="text" id="title" placeholder="例如：100公尺短跑、1分鐘伏地挺身最多下..." required>
+                </div>
+
+                <div class="form-group">
+                    <label for="value">紀錄數據與成績 *</label>
+                    <input type="text" id="value" placeholder="例如：11.2 秒 / 65 次" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="holder">紀錄保持人 / 申請人姓名與班別 *</label>
+                    <input type="text" id="holder" placeholder="例如：王小明 (5D)" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="desc">過程詳情與佐證說明 *</label>
+                    <textarea id="desc" rows="4" placeholder="請詳細說明時間、地點、幾位見證人或比賽名稱..." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="proof">佐證影片/圖片連結 (選填)</label>
+                    <input type="url" id="proof" placeholder="https://drive.google.com/...">
+                </div>
+
+                <button type="submit" class="submit-btn">提交紀錄申請 (Submit Record)</button>
+            </form>
+        </div>
+
+    </div>
+
+    <!-- 意見箱按鈕 -->
+    <a href="contact.html" class="floating-btn">意見箱</a>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <p>© cdgfss 2627 nominated student union cabinet ALL RIGHTS RESERVED.</p>
+    </footer>
+
+    <script>
+        const menuDrawer = document.getElementById('menuDrawer');
+        document.getElementById('menuOpen').addEventListener('click', () => {
+            menuDrawer.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        document.getElementById('menuClose').addEventListener('click', () => {
+            menuDrawer.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+
+        // 提交紀錄表單邏輯
+        let subCount = 0;
+        const recordForm = document.getElementById('recordForm');
+        const successAlert = document.getElementById('successAlert');
+        const recordList = document.getElementById('recordList');
+        const emptyState = document.getElementById('emptyState');
+        const submissionCountElem = document.getElementById('submissionCount');
+
+        recordForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            // 隱藏空白提示
+            if (emptyState) {
+                emptyState.style.display = 'none';
+            }
+
+            const title = document.getElementById('title').value;
+            const value = document.getElementById('value').value;
+            const holder = document.getElementById('holder').value;
+            const desc = document.getElementById('desc').value;
+            const today = new Date().toISOString().split('T')[0];
+
+            // 動態新增投稿卡片
+            const newCard = document.createElement('div');
+            newCard.className = 'record-card highlight';
+            newCard.innerHTML = `
+                <span class="record-badge-official">⌛ 審核中新紀錄</span>
+                <h3 class="record-item-title">${title}</h3>
+                <div class="record-value">紀錄數據：${value}</div>
+                <p class="record-desc">${desc}</p>
+                <div class="record-meta">
+                    <span>申請人：<span class="record-holder">${holder}</span></span>
+                    <span>提交日期：${today}</span>
+                </div>
+            `;
+
+            recordList.prepend(newCard);
+
+            // 更新投稿次數計數器
+            subCount++;
+            submissionCountElem.textContent = subCount;
+
+            // 顯示成功提示並重置表單
+            successAlert.style.display = 'block';
+            recordForm.reset();
+
+            setTimeout(() => {
+                successAlert.style.display = 'none';
+            }, 4000);
+        });
+    </script>
+</body>
+</html>

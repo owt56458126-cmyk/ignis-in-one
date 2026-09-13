@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>活動資訊 - Ignis</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Noto+Serif+TC:wght@500;600;700;900&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #121212;
+            --text-color: #ffffff;
+            --card-bg: #1a1a1a;
+            --accent-orange: #ff6600;
+            --sub-text: #a0a0a0;
+            --border-color: #2a2a2a;
+            --header-bg: rgba(18, 18, 18, 0.85);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; transition: background-color 0.3s, color 0.3s; }
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; }
+
+        header {
+            position: fixed; top: 0; left: 0; width: 100%; display: flex; justify-content: space-between; align-items: center;
+            padding: 1.2rem 1.8rem; background: var(--header-bg); backdrop-filter: blur(12px); z-index: 1000; border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo { font-family: 'Cinzel', serif; font-size: 1.8rem; font-weight: 800; color: var(--text-color); text-decoration: none; }
+        .icon-btn { background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-color); color: var(--text-color); border-radius: 8px; padding: 8px 14px; cursor: pointer; }
+
+        .menu-drawer { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: var(--bg-color); z-index: 2000; display: none; flex-direction: column; padding: 2rem 1.8rem; overflow-y: auto; }
+        .menu-drawer.active { display: flex; }
+        .drawer-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem; }
+        .menu-list { list-style: none; }
+        .menu-item { border-bottom: 1px solid var(--border-color); padding: 1.1rem 0; }
+        .menu-item a { text-decoration: none; color: var(--text-color); font-family: 'Noto Serif TC', serif; font-size: 1.25rem; font-weight: 600; display: block; }
+
+        .page-banner { position: relative; padding: 8rem 1.8rem 3rem; text-align: center; border-bottom: 1px solid var(--border-color); background-color: #0d0d0d; }
+        .page-title { font-family: 'Noto Serif TC', serif; font-size: 2.5rem; font-weight: 800; color: #ffffff; }
+
+        .section-box { padding: 3.5rem 1.8rem; border-bottom: 1px solid var(--border-color); max-width: 800px; margin: 0 auto; }
+
+        /* 時間軸樣式 (Timeline) */
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+            margin-top: 1rem;
+        }
+
+        /* 時間軸垂直中心線 */
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 8px;
+            bottom: 0;
+            width: 2px;
+            background: var(--border-color);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2.5rem;
+        }
+
+        /* 時間軸節點圓點 */
+        .timeline-dot {
+            position: absolute;
+            left: -2rem;
+            top: 6px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--accent-orange);
+            border: 4px solid var(--bg-color);
+            box-shadow: 0 0 10px rgba(255, 102, 0, 0.5);
+        }
+
+        .timeline-date {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--accent-orange);
+            margin-bottom: 0.8rem;
+        }
+
+        .timeline-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.8rem;
+            transition: border-color 0.2s;
+        }
+
+        .timeline-card:hover {
+            border-color: var(--accent-orange);
+        }
+
+        .event-title {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.6rem;
+        }
+
+        .event-detail-item {
+            display: flex;
+            margin-bottom: 0.8rem;
+            font-size: 1rem;
+        }
+
+        .event-detail-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .detail-label {
+            width: 80px;
+            color: var(--sub-text);
+            flex-shrink: 0;
+            font-weight: 500;
+        }
+
+        .detail-value {
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        .time-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .floating-btn { position: fixed; bottom: 24px; right: 24px; background: var(--accent-orange); color: #000; font-weight: 700; border-radius: 30px; padding: 12px 22px; text-decoration: none; font-size: 0.9rem; z-index: 999; }
+        .main-footer { text-align: center; padding: 3rem 1.8rem; color: var(--sub-text); font-size: 0.85rem; font-family: 'Cinzel', serif; letter-spacing: 1px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo">Ignis</a>
+        <button class="icon-btn" id="menuOpen">☰</button>
+    </header>
+
+    <div class="menu-drawer" id="menuDrawer">
+        <div class="drawer-header">
+            <a href="index.html" class="logo">Ignis</a>
+            <button class="icon-btn" id="menuClose">✕</button>
+        </div>
+        <ul class="menu-list">
+            <li class="menu-item"><a href="index.html">首頁</a></li>
+            <li class="menu-item"><a href="events.html">活動資訊</a></li>
+            <li class="menu-item"><a href="platform.html">政綱</a></li>
+            <li class="menu-item"><a href="progress.html">政綱進度</a></li>
+            <li class="menu-item"><a href="welfare.html">福利</a></li>
+            <li class="menu-item"><a href="cdgrecord.html">CDG Record</a></li>
+        </ul>
+    </div>
+
+    <!-- 標題 Banner（已刪除 UPCOMING EVENTS 橙字） -->
+    <section class="page-banner">
+        <h1 class="page-title">活動資訊</h1>
+    </section>
+
+    <!-- 時間軸區塊 -->
+    <section class="section-box">
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-date">9月16日</div>
+                
+                <div class="timeline-card">
+                    <h2 class="event-title">學生會選舉</h2>
+                    
+                    <div class="event-detail-item">
+                        <span class="detail-label">地點：</span>
+                        <span class="detail-value">Covered Playground</span>
+                    </div>
+                    
+                    <div class="event-detail-item">
+                        <span class="detail-label">時間：</span>
+                        <div class="detail-value time-group">
+                            <div><strong>高中：</strong>09:15 – 11:05</div>
+                            <div><strong>初中：</strong>11:20 – 12:30</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <a href="contact.html" class="floating-btn">意見箱</a>
+
+    <footer class="main-footer">
+        <p>© cdgfss 2627 nominated student union cabinet ALL RIGHTS RESERVED.</p>
+    </footer>
+
+    <script>
+        const menuDrawer = document.getElementById('menuDrawer');
+        document.getElementById('menuOpen').addEventListener('click', () => {
+            menuDrawer.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        document.getElementById('menuClose').addEventListener('click', () => {
+            menuDrawer.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+    </script>
+</body>
+</html>

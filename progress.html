@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>政綱進度 - Ignis</title>
+    <!-- 高級字體庫 -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Noto+Serif+TC:wght@500;600;700;900&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #121212;
+            --text-color: #ffffff;
+            --card-bg: #1a1a1a;
+            --accent-orange: #ff6600;
+            --sub-text: #a0a0a0;
+            --border-color: #2a2a2a;
+            --header-bg: rgba(18, 18, 18, 0.85);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 頂部導覽列 */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 1.8rem;
+            background: var(--header-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--text-color);
+            text-decoration: none;
+            letter-spacing: 2px;
+        }
+
+        .icon-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            border-radius: 8px;
+            padding: 8px 14px;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        .icon-btn:hover {
+            border-color: var(--accent-orange);
+            color: var(--accent-orange);
+        }
+
+        /* 漢堡選單 Drawer */
+        .menu-drawer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: var(--bg-color);
+            z-index: 2000;
+            display: none;
+            flex-direction: column;
+            padding: 2rem 1.8rem;
+            overflow-y: auto;
+        }
+
+        .menu-drawer.active {
+            display: flex;
+        }
+
+        .drawer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .menu-list {
+            list-style: none;
+        }
+
+        .menu-item {
+            border-bottom: 1px solid var(--border-color);
+            padding: 1.1rem 0;
+        }
+
+        .menu-item a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-family: 'Noto Serif TC', serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            display: block;
+        }
+
+        .menu-item a:hover {
+            color: var(--accent-orange);
+        }
+
+        /* 頁面標題區塊 */
+        .page-banner {
+            position: relative;
+            padding: 8rem 1.8rem 3rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+            background-color: #0d0d0d;
+        }
+
+        .page-title {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 4rem 1.5rem;
+        }
+
+        /* 主告示卡片 */
+        .status-notice-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 3rem 2rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .status-heading {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 2rem;
+            font-weight: 900;
+            color: #ffffff;
+            margin-bottom: 1rem;
+        }
+
+        .status-desc {
+            color: var(--sub-text);
+            font-size: 1rem;
+            line-height: 1.8;
+        }
+
+        /* 右下角懸浮按鈕 */
+        .floating-btn {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: var(--accent-orange);
+            color: #000;
+            font-weight: 700;
+            border-radius: 30px;
+            padding: 12px 22px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            z-index: 999;
+            box-shadow: 0 4px 20px rgba(255, 102, 0, 0.25);
+        }
+
+        /* Footer */
+        .main-footer {
+            text-align: center;
+            padding: 3rem 1.8rem;
+            color: var(--sub-text);
+            font-size: 0.85rem;
+            font-family: 'Cinzel', serif;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <a href="index.html" class="logo">Ignis</a>
+        <button class="icon-btn" id="menuOpen">☰</button>
+    </header>
+
+    <!-- Navigation Drawer -->
+    <div class="menu-drawer" id="menuDrawer">
+        <div class="drawer-header">
+            <a href="index.html" class="logo">Ignis</a>
+            <button class="icon-btn" id="menuClose">✕</button>
+        </div>
+        <ul class="menu-list">
+            <li class="menu-item"><a href="index.html">首頁</a></li>
+            <li class="menu-item"><a href="events.html">活動資訊</a></li>
+            <li class="menu-item"><a href="platform.html">政綱</a></li>
+            <li class="menu-item"><a href="progress.html">政綱進度</a></li>
+            <li class="menu-item"><a href="welfare.html">福利</a></li>
+            <li class="menu-item"><a href="cdgrecord.html">CDG Record</a></li>
+            <li class="menu-item"><a href="contact.html">聯絡我們</a></li>
+        </ul>
+    </div>
+
+    <!-- Page Banner -->
+    <section class="page-banner">
+        <h1 class="page-title">政綱進度</h1>
+    </section>
+
+    <div class="container">
+        
+        <!-- 當選後正式開始 告示區塊 -->
+        <div class="status-notice-card">
+            <h2 class="status-heading">當選後正式開始</h2>
+            <p class="status-desc">
+                感謝各位同學對 Ignis 的支持！若幸運當選 2026–2027 年度學生會，本閣將在此即時更新各項爭取事項、服務措施及大小型活動的具體執行進度與落實情況，堅持公開透明，兌現每一項承諾。
+            </p>
+        </div>
+
+    </div>
+
+    <!-- 意見箱按鈕 -->
+    <a href="contact.html" class="floating-btn">意見箱</a>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <p>© cdgfss 2627 nominated student union cabinet ALL RIGHTS RESERVED.</p>
+    </footer>
+
+    <script>
+        const menuDrawer = document.getElementById('menuDrawer');
+        document.getElementById('menuOpen').addEventListener('click', () => {
+            menuDrawer.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        document.getElementById('menuClose').addEventListener('click', () => {
+            menuDrawer.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+    </script>
+</body>
+</html>

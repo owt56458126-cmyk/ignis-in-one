@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商戶福利 - Ignis</title>
+    <!-- 高級字體庫 -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Noto+Serif+TC:wght@500;600;700;900&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #121212;
+            --text-color: #ffffff;
+            --card-bg: #1a1a1a;
+            --accent-orange: #ff6600;
+            --sub-text: #a0a0a0;
+            --border-color: #2a2a2a;
+            --header-bg: rgba(18, 18, 18, 0.85);
+            --input-bg: #222222;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 頂部導覽列 */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 1.8rem;
+            background: var(--header-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--text-color);
+            text-decoration: none;
+            letter-spacing: 2px;
+        }
+
+        .icon-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            border-radius: 8px;
+            padding: 8px 14px;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        .icon-btn:hover {
+            border-color: var(--accent-orange);
+            color: var(--accent-orange);
+        }
+
+        /* 漢堡選單 Drawer */
+        .menu-drawer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: var(--bg-color);
+            z-index: 2000;
+            display: none;
+            flex-direction: column;
+            padding: 2rem 1.8rem;
+            overflow-y: auto;
+        }
+
+        .menu-drawer.active {
+            display: flex;
+        }
+
+        .drawer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .menu-list {
+            list-style: none;
+        }
+
+        .menu-item {
+            border-bottom: 1px solid var(--border-color);
+            padding: 1.1rem 0;
+        }
+
+        .menu-item a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-family: 'Noto Serif TC', serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            display: block;
+        }
+
+        .menu-item a:hover {
+            color: var(--accent-orange);
+        }
+
+        /* Banner 區塊 */
+        .page-banner {
+            position: relative;
+            padding: 8rem 1.8rem 3rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+            background-color: #0d0d0d;
+        }
+
+        .page-title {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            color: var(--sub-text);
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem;
+        }
+
+        /* 福利分類區塊 */
+        .category-section {
+            margin-bottom: 3.5rem;
+        }
+
+        .category-title {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--accent-orange);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.6rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .merchant-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1.2rem;
+        }
+
+        /* 商戶卡片 */
+        .merchant-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.4rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .merchant-card:hover {
+            border-color: var(--accent-orange);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(255, 102, 0, 0.15);
+        }
+
+        .merchant-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+            word-break: break-word;
+        }
+
+        .merchant-discount {
+            font-size: 0.9rem;
+            color: var(--sub-text);
+            line-height: 1.5;
+        }
+
+        /* Footer */
+        .main-footer {
+            text-align: center;
+            padding: 3rem 1.8rem;
+            color: var(--sub-text);
+            font-size: 0.85rem;
+            font-family: 'Cinzel', serif;
+            letter-spacing: 1px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        @media (max-width: 600px) {
+            .merchant-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <a href="index.html" class="logo">Ignis</a>
+        <button class="icon-btn" id="menuOpen">☰</button>
+    </header>
+
+    <!-- Navigation Drawer -->
+    <div class="menu-drawer" id="menuDrawer">
+        <div class="drawer-header">
+            <a href="index.html" class="logo">Ignis</a>
+            <button class="icon-btn" id="menuClose">✕</button>
+        </div>
+        <ul class="menu-list">
+            <li class="menu-item"><a href="index.html">首頁</a></li>
+            <li class="menu-item"><a href="events.html">活動資訊</a></li>
+            <li class="menu-item"><a href="platform.html">政綱</a></li>
+            <li class="menu-item"><a href="progress.html">政綱進度</a></li>
+            <li class="menu-item"><a href="welfare.html">福利</a></li>
+            <li class="menu-item"><a href="cdgrecord.html">CDG Record</a></li>
+            <li class="menu-item"><a href="contact.html">聯絡我們</a></li>
+        </ul>
+    </div>
+
+    <!-- Page Banner -->
+    <section class="page-banner">
+        <h1 class="page-title">福利</h1>
+        <p class="page-subtitle">持續更新中，當選後正式啟用</p>
+    </section>
+
+    <div class="container">
+
+        <!-- 餐飲美食 -->
+        <section class="category-section">
+            <h2 class="category-title">餐飲美食 (13 間)</h2>
+            <div class="merchant-grid">
+                <div class="merchant-card"><div class="merchant-name">65.cakes</div><div class="merchant-discount">出示學生證享 9 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">bone.studio</div><div class="merchant-discount">旺角店堂食 9 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">cindrinks_froyo</div><div class="merchant-discount">正價乳酪雪糕及飲品 85 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">coffganic</div><div class="merchant-discount">88 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">dessertpalace61</div><div class="merchant-discount">9 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">hohoneatry</div><div class="merchant-discount">漢堡包及意粉 9 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">ichigoichie.hongkong</div><div class="merchant-discount">95 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">lemonliza.hk</div><div class="merchant-discount">每件商品減 $3</div></div>
+                <div class="merchant-card"><div class="merchant-name">loudtea_hk (響茶)</div><div class="merchant-discount">穿校服或出示學生證享 9 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">sugarbrothershk</div><div class="merchant-discount">網購拿破崙蛋糕 9 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">thewoo.house</div><div class="merchant-discount">全單 9 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">thirtytwohk.shop</div><div class="merchant-discount">95 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">tiffanyscommunitybakery</div><div class="merchant-discount">9 折</div></div>
+            </div>
+        </section>
+
+        <!-- 服裝鞋履 / 班衫班褸 -->
+        <section class="category-section">
+            <h2 class="category-title">服裝鞋履 / 班衫班褸 (32 間)</h2>
+            <div class="merchant-grid">
+                <div class="merchant-card"><div class="merchant-name">_haku_88_</div><div class="merchant-discount">全單 9 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">7749hk</div><div class="merchant-discount">購物 95 折 (須 Follow IG)</div></div>
+                <div class="merchant-card"><div class="merchant-name">89_hongkong</div><div class="merchant-discount">滿 $35 出示學生證享 9 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">class3hk</div><div class="merchant-discount">訂購班衫 85 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">crazt.co</div><div class="merchant-discount">全店產品 95 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">ec_kicks.hk</div><div class="merchant-discount">團購球鞋 2 對起每對減 $50–$100</div></div>
+                <div class="merchant-card"><div class="merchant-name">femme.hk</div><div class="merchant-discount">全單 95 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">freepointtcw</div><div class="merchant-discount">班衫 / 社衫正價 7 至 9 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">futurepulse_print</div><div class="merchant-discount">班衫 $50/件，外套 $80–$120</div></div>
+                <div class="merchant-card"><div class="merchant-name">heyoro_store</div><div class="merchant-discount">全單 9 折 (滿 $500 包郵)</div></div>
+                <div class="merchant-card"><div class="merchant-name">inbudget_printing</div><div class="merchant-discount">班 Tee 減 $100–$360，聯班包順豐</div></div>
+                <div class="merchant-card"><div class="merchant-name">liah_hk</div><div class="merchant-discount">8 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">lodies.co</div><div class="merchant-discount">9 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">me.3.clothing</div><div class="merchant-discount">正價減 $60</div></div>
+                <div class="merchant-card"><div class="merchant-name">monochrome.hk</div><div class="merchant-discount">滿 $1000 減 $100</div></div>
+                <div class="merchant-card"><div class="merchant-name">mtsportswear.ltd</div><div class="merchant-discount">單面套裝 $145/套、雙面套裝 $215/套、班 Tee $45/件</div></div>
+                <div class="merchant-card"><div class="merchant-name">neat.korea</div><div class="merchant-discount">正價貨品 95 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">ohlook_hk</div><div class="merchant-discount">優惠 Tee $120、外套 $200，聯班折減 $280–$1100</div></div>
+                <div class="merchant-card"><div class="merchant-name">olivier_odorant</div><div class="merchant-discount">輸入優惠碼享 9 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">once_clothing_</div><div class="merchant-discount">班衫 8 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">peach.ckt</div><div class="merchant-discount">正價商品 85 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">picnic.hk</div><div class="merchant-discount">衣服類 95 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">purplewood.hk</div><div class="merchant-discount">9 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">season_852</div><div class="merchant-discount">滿 $1000 享 9 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">teetimeprinting</div><div class="merchant-discount">班衫買 30 送 1，聯班/社 75 至 85 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">timeshk</div><div class="merchant-discount">全店 95 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">tp3.hk</div><div class="merchant-discount">滿 15 件 9 折、30 件 85 折 (包郵)</div></div>
+                <div class="merchant-card"><div class="merchant-name">tt_printing</div><div class="merchant-discount">報價 9 折，聯班/社享現金回贈</div></div>
+                <div class="merchant-card"><div class="merchant-name">ttfortee_hk</div><div class="merchant-discount">Tee/Polo 每班減 $100，外套每班減 $200</div></div>
+                <div class="merchant-card"><div class="merchant-name">wannashop.hk</div><div class="merchant-discount">正價貨品 95 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">whoops.hk</div><div class="merchant-discount">全單 9 折且滿 $100 免運費</div></div>
+                <div class="merchant-card"><div class="merchant-name">youni.studio__</div><div class="merchant-discount">全店 9 折</div></div>
+            </div>
+        </section>
+
+        <!-- 教育補習 / 考試備考 -->
+        <section class="category-section">
+            <h2 class="category-title">教育補習 / 考試備考 (16 間)</h2>
+            <div class="merchant-grid">
+                <div class="merchant-card"><div class="merchant-name">_hkdsechemistry_</div><div class="merchant-discount">每個 course 減 $50</div></div>
+                <div class="merchant-card"><div class="merchant-name">樂而教育中心</div><div class="merchant-discount">專科班 9 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">allanlau_dse</div><div class="merchant-discount">學費滿 $1000 享 9 折，模擬試 7 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">calvinscience</div><div class="merchant-discount">新生免費試堂，首 4 堂半價</div></div>
+                <div class="merchant-card"><div class="merchant-name">cc.english_</div><div class="merchant-discount">DSE & IELTS 網課 8 折，二人同行 8 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">dse_bio_latentalent</div><div class="merchant-discount">Bio 網課 9 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">dse_matrixeducation</div><div class="merchant-discount">首期 9 折，同行每期減 $200–$300</div></div>
+                <div class="merchant-card"><div class="merchant-name">dsebio.zebrafish</div><div class="merchant-discount">購買 Full Set Notes 享 9 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">eplchk</div><div class="merchant-discount">全年中英數課程 88 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">jc_english</div><div class="merchant-discount">Regular/Intensive 新生首期減 $200</div></div>
+                <div class="merchant-card"><div class="merchant-name">le.cafe.des.delices</div><div class="merchant-discount">出示學生證 9 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">mathit_hk</div><div class="merchant-discount">首期 75 折，二人同行首期半價</div></div>
+                <div class="merchant-card"><div class="merchant-name">milesenglish_</div><div class="merchant-discount">新生一次性折扣 $200</div></div>
+                <div class="merchant-card"><div class="merchant-name">notesity.hk</div><div class="merchant-discount">輸入優惠碼全單 95 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">rev education</div><div class="merchant-discount">線上課程 8 折，私補首堂 9 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">tutorcircle</div><div class="merchant-discount">尋補申請學費滿 $550 減 $50</div></div>
+            </div>
+        </section>
+
+        <!-- Party Room / 劇本殺 / 娛樂 -->
+        <section class="category-section">
+            <h2 class="category-title">Party Room / 劇本殺 / 娛樂 (30 間)</h2>
+            <div class="merchant-grid">
+                <div class="merchant-card"><div class="merchant-name">alpha_party_2020</div><div class="merchant-discount">讚好及分享享 9 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">amgirls831</div><div class="merchant-discount">95 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">amigospartyroom</div><div class="merchant-discount">週一至四 8 折，週五至日 9 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">blissparty.room</div><div class="merchant-discount">4 人以上 95 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">honeydew_partyroom</div><div class="merchant-discount">預約 6 小時加送 1 小時</div></div>
+                <div class="merchant-card"><div class="merchant-name">imini.partyhouse</div><div class="merchant-discount">週一至四 5 小時 6 人以上 9 折，10 人免 1 人</div></div>
+                <div class="merchant-card"><div class="merchant-name">larpco_official</div><div class="merchant-discount">平日週一至四 9 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">larppchk</div><div class="merchant-discount">Follow IG + 學生證享 9 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">lastparty.cwb</div><div class="merchant-discount">10 人或以上特定時段 9 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">little.sparrow.partyroom</div><div class="merchant-discount">9 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">mahjong_xd</div><div class="merchant-discount">9 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">mahjong_wolf</div><div class="merchant-discount">95 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">mh.studio_partyroom</div><div class="merchant-discount">85 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">mtboardgame</div><div class="merchant-discount">學生證平 $10</div></div>
+                <div class="merchant-card"><div class="merchant-name">one_partyroom</div><div class="merchant-discount">9 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">partyroom_bunny.studio</div><div class="merchant-discount">滿 4 小時送 1 小時</div></div>
+                <div class="merchant-card"><div class="merchant-name">partyroom_fairy.studio</div><div class="merchant-discount">滿 4 小時送 1 小時</div></div>
+                <div class="merchant-card"><div class="merchant-name">partyroom_lazyhouse7</div><div class="merchant-discount">31 間加盟店 9 折及任飲</div></div>
+                <div class="merchant-card"><div class="merchant-name">partyroom_warmhouse</div><div class="merchant-discount">平日 5 人以上/假日 7 人以上 9 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">partyroom.98</div><div class="merchant-discount">Follow IG 享 95 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">partyroom.wingwingday</div><div class="merchant-discount">9 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">softpartyroom</div><div class="merchant-discount">滿 $800 享 9 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">something.larp</div><div class="merchant-discount">9 折，帶非同校朋友每位再減 $50</div></div>
+                <div class="merchant-card"><div class="merchant-name">ssphongkong</div><div class="merchant-discount">門票 8 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">stellar.partyroom</div><div class="merchant-discount">週一至四半價，週末假日 9 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">theydateday.party</div><div class="merchant-discount">4 人以上每位 $99/4小時</div></div>
+                <div class="merchant-card"><div class="merchant-name">toneplayer_</div><div class="merchant-discount">桌遊劇本殺 $20/人，實體劇本殺 $50/人</div></div>
+                <div class="merchant-card"><div class="merchant-name">wooden.studio_partyroom</div><div class="merchant-discount">4 人以上預約 85 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">yt.partyroom</div><div class="merchant-discount">95 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">zero_partyroom</div><div class="merchant-discount">Follow IG 享 88 折，15 人以上 8 折</div></div>
+            </div>
+        </section>
+
+        <!-- 美妝護膚 / 個人護理 -->
+        <section class="category-section">
+            <h2 class="category-title">美妝護膚 / 個人護理 (10 間)</h2>
+            <div class="merchant-grid">
+                <div class="merchant-card"><div class="merchant-name">december.ofcl</div><div class="merchant-discount">輸入優惠碼 9 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">love_beautyhk</div><div class="merchant-discount">正價月拋、年拋買二送一</div></div>
+                <div class="merchant-card"><div class="merchant-name">lovelenshk</div><div class="merchant-discount">正價月拋、年拋買二送一</div></div>
+                <div class="merchant-card"><div class="merchant-name">morningirlss</div><div class="merchant-discount">持學生證送 $20 購物金</div></div>
+                <div class="merchant-card"><div class="merchant-name">ohue_</div><div class="merchant-discount">滿 $300 即減 $20</div></div>
+                <div class="merchant-card"><div class="merchant-name">peach.myk</div><div class="merchant-discount">滿 $699 包郵</div></div>
+                <div class="merchant-card"><div class="merchant-name">pomnail.123</div><div class="merchant-discount">滿 $200 享 9 折，滿 $150 免運，Follow IG 享 95 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">rom.room.hk</div><div class="merchant-discount">全單 95 折，滿 $500 額外 9 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">wel_beauty21</div><div class="merchant-discount">9 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">xfusionshop</div><div class="merchant-discount">正價貨品 95 折</div></div>
+            </div>
+        </section>
+
+        <!-- 運動健身 / 單車及裝備 -->
+        <section class="category-section">
+            <h2 class="category-title">運動健身 / 單車及裝備 (14 間)</h2>
+            <div class="merchant-grid">
+                <div class="merchant-card"><div class="merchant-name">aegis.gear.hk</div><div class="merchant-discount">正價 95 折，整球衣/班衫 9 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">ATACAR</div><div class="merchant-discount">球衣上衫 $100/件</div></div>
+                <div class="merchant-card"><div class="merchant-name">boomgym.hk</div><div class="merchant-discount">產品減 $10–$50，滿 $800 送搖搖杯</div></div>
+                <div class="merchant-card"><div class="merchant-name">hkgymlife</div><div class="merchant-discount">產品減 $10–$50，滿 $800 送搖搖杯</div></div>
+                <div class="merchant-card"><div class="merchant-name">bullbike</div><div class="merchant-discount">正價購物 9 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">Fencers Club Hong Kong 劍擊學堂</div><div class="merchant-discount">$150 享 30 分鐘單對單體驗</div></div>
+                <div class="merchant-card"><div class="merchant-name">finesse_hk</div><div class="merchant-discount">指定系列 95 折，滿 $1500 減 $100</div></div>
+                <div class="merchant-card"><div class="merchant-name">freshabike</div><div class="merchant-discount">全新單車 95 折，租車 9 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">kaleehub</div><div class="merchant-discount">提供免費試堂</div></div>
+                <div class="merchant-card"><div class="merchant-name">pdzcskateshop</div><div class="merchant-discount">產品 6 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">phoenix24ltd</div><div class="merchant-discount">單月學生優惠價 $200</div></div>
+                <div class="merchant-card"><div class="merchant-name">punchers_vbhk</div><div class="merchant-discount">滿 $200 享 9 折，滿 $1000 免費送貨到校</div></div>
+                <div class="merchant-card"><div class="merchant-name">travelol_</div><div class="merchant-discount">正價 68 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">turtle_bike_workshop</div><div class="merchant-discount">滿 $300 享 95 折，滿 $500 享 9 折</div></div>
+            </div>
+        </section>
+
+        <!-- 攝影相片 / 沖印 -->
+        <section class="category-section">
+            <h2 class="category-title">攝影相片 / 沖印 (11 間)</h2>
+            <div class="merchant-grid">
+                <div class="merchant-card"><div class="merchant-name">cheesephoto.insta</div><div class="merchant-discount">獲一次性 $10 優惠券</div></div>
+                <div class="merchant-card"><div class="merchant-name">cloudy_monday_hk</div><div class="merchant-discount">每單享 $20 折扣</div></div>
+                <div class="merchant-card"><div class="merchant-name">dotwellphotohk</div><div class="merchant-discount">菲林每卷減 $5，沖掃每筒減 $10</div></div>
+                <div class="merchant-card"><div class="merchant-name">hkpbs</div><div class="merchant-discount">提供 $300 折扣優惠</div></div>
+                <div class="merchant-card"><div class="merchant-name">kk_camera</div><div class="merchant-discount">全單 95 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">kk_ccd_shop</div><div class="merchant-discount">每部相機優惠 $30</div></div>
+                <div class="merchant-card"><div class="merchant-name">kobo_camera</div><div class="merchant-discount">相機/鏡頭即獲 $80 現金折扣</div></div>
+                <div class="merchant-card"><div class="merchant-name">showa_f</div><div class="merchant-discount">沖掃每卷減 $5</div></div>
+                <div class="merchant-card"><div class="merchant-name">snapio.io</div><div class="merchant-discount">TOP門市影相滿 $100 享 8 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">snapit_hk</div><div class="merchant-discount">任拍續時/加印折減 $10</div></div>
+                <div class="merchant-card"><div class="merchant-name">snappystudiohk</div><div class="merchant-discount">單日拍 3 張可獲免費一次拍攝</div></div>
+            </div>
+        </section>
+
+        <!-- 手作 DIY / 花藝禮品 -->
+        <section class="category-section">
+            <h2 class="category-title">手作 DIY / 花藝禮品 (25 間)</h2>
+            <div class="merchant-grid">
+                <div class="merchant-card"><div class="merchant-name">babama.market</div><div class="merchant-discount">全單 9 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">grew_from_hands</div><div class="merchant-discount">全單 9 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">fancrystal.hk</div><div class="merchant-discount">全單 9 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">j_to_j.co</div><div class="merchant-discount">全單 9 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">s.i.s_shop_</div><div class="merchant-discount">全單 9 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">shizuruya_handmade</div><div class="merchant-discount">全單 9 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">blossom_tellastory</div><div class="merchant-discount">9 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">lafloweri</div><div class="merchant-discount">9 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">florist.town</div><div class="merchant-discount">正價 95 折，多束低至 88 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">giftjustforu</div><div class="merchant-discount">輸入折扣碼 GIFT10 享 9 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">giris.room</div><div class="merchant-discount">串珠/應援扇工作坊 8 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">hisoka.flower</div><div class="merchant-discount">85 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">iaoo_crystal.hk</div><div class="merchant-discount">全單 95 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">lovora_hk</div><div class="merchant-discount">拼豆/手作課程 88 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">menuworkshop</div><div class="merchant-discount">8 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">meow_art_coffee</div><div class="merchant-discount">參加工作坊 9 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">mooncastle_crystal</div><div class="merchant-discount">95 折 (滿 $200 包郵)</div></div>
+                <div class="merchant-card"><div class="merchant-name">my.chu.jai</div><div class="merchant-discount">買 2 件以上每件減 $5</div></div>
+                <div class="merchant-card"><div class="merchant-name">nailnalabhk</div><div class="merchant-discount">減 $30</div></div>
+                <div class="merchant-card"><div class="merchant-name">not.that.tuft</div><div class="merchant-discount">二人同行減 $100</div></div>
+                <div class="merchant-card"><div class="merchant-name">shoulderpetals</div><div class="merchant-discount">單束 95 折，二人同行 9 折，10 束 85 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">soulseoulroom</div><div class="merchant-discount">滿 $100 享 95 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">verstic_hk</div><div class="merchant-discount">95 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">angel_handcraft</div><div class="merchant-discount">95 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">littlechild.studio</div><div class="merchant-discount">95 折</div></div>
+            </div>
+        </section>
+
+        <!-- 舞蹈 / 音樂 / 樂器 -->
+        <section class="category-section">
+            <h2 class="category-title">舞蹈 / 音樂 / 樂器 (14 間)</h2>
+            <div class="merchant-grid">
+                <div class="merchant-card"><div class="merchant-name">2924dance.hk</div><div class="merchant-discount">租房優惠價低至 $60/2小時</div></div>
+                <div class="merchant-card"><div class="merchant-name">aistudiohk</div><div class="merchant-discount">私人課程 9 折，租場 7 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">artz_studio_hk</div><div class="merchant-discount">課堂 $100 現金券</div></div>
+                <div class="merchant-card"><div class="merchant-name">bookfordance</div><div class="merchant-discount">時租 $60/hr</div></div>
+                <div class="merchant-card"><div class="merchant-name">fjdance</div><div class="merchant-discount">公開課程 9 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">guitargeneration</div><div class="merchant-discount">單板 88 折，全單板 85 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">homeswwethomehk</div><div class="merchant-discount">樂器 95 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">iddddancestudio</div><div class="merchant-discount">鏡房 $50/hr</div></div>
+                <div class="merchant-card"><div class="merchant-name">kelsonstudio</div><div class="merchant-discount">Band 房每小時減 $15，租借/錄音 8 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">rock_music_factory</div><div class="merchant-discount">音樂課程 92 折，製作/聲樂班 5 至 8 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">sgm_dance_production</div><div class="merchant-discount">優先免費舞蹈活動/交流團</div></div>
+                <div class="merchant-card"><div class="merchant-name">soundomichi</div><div class="merchant-discount">產品 9 折，樂器班首 4 堂減 $200</div></div>
+                <div class="merchant-card"><div class="merchant-name">times_musicstudio</div><div class="merchant-discount">唱歌班 9 折，錄音 7 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">trainingtimestudio</div><div class="merchant-discount">預約 2 小時以上 9 折</div></div>
+            </div>
+        </section>
+
+        <!-- 其他百貨與服務 -->
+        <section class="category-section">
+            <h2 class="category-title">其他百貨與服務 (23 間)</h2>
+            <div class="merchant-grid">
+                <div class="merchant-card"><div class="merchant-name">bbearcompany</div><div class="merchant-discount">租 2 間分店以上額外 95 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">CAPTAIN PAW</div><div class="merchant-discount">上門寵物服務 95 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">catstearoom</div><div class="merchant-discount">閒日入場費減 $12</div></div>
+                <div class="merchant-card"><div class="merchant-name">ccstore_kr</div><div class="merchant-discount">滿 $199 減 $2，滿 $299 減 $5</div></div>
+                <div class="merchant-card"><div class="merchant-name">copycat_printing</div><div class="merchant-discount">印刷卡片/印章等 9 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">doughnutofficial</div><div class="merchant-discount">背包單件 88 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">Fingerprint Limited</div><div class="merchant-discount">9 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">fitsizesneakers</div><div class="merchant-discount">門市正價 95 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">genic.inc</div><div class="merchant-discount">免費升級防藍光鏡片</div></div>
+                <div class="merchant-card"><div class="merchant-name">hair_kiss_man</div><div class="merchant-discount">電/染/焗減 $100，剪髮減 $50</div></div>
+                <div class="merchant-card"><div class="merchant-name">idealsquare228</div><div class="merchant-discount">韓星周邊 95 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">jccyshop.hk</div><div class="merchant-discount">每滿 2 件減 $10</div></div>
+                <div class="merchant-card"><div class="merchant-name">kafirst_hk</div><div class="merchant-discount">指定產品 95 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">kaifongcomputer</div><div class="merchant-discount">電腦配件 95 折，免砌機費</div></div>
+                <div class="merchant-card"><div class="merchant-name">ks_store023</div><div class="merchant-discount">滿 $100 享 95 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">morning.eveninghk</div><div class="merchant-discount">全單 95 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">nc_kpop_</div><div class="merchant-discount">正價貨品 9 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">ooniquehk</div><div class="merchant-discount">學生日租 $85/天，時租 85 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">optical.online.hk</div><div class="merchant-discount">輸入優惠碼享 $100 折扣</div></div>
+                <div class="merchant-card"><div class="merchant-name">ouchtoys_b</div><div class="merchant-discount">網店 85 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">rpmuseum.hk</div><div class="merchant-discount">9 折，生日月 8 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">aj_pastelnagomiart</div><div class="merchant-discount">畫具 9 折</div></div>
+                <div class="merchant-card"><div class="merchant-name">stick_with_u</div><div class="merchant-discount">滿 $200 享 95 折</div></div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <p>© cdgfss 2627 nominated student union cabinet ALL RIGHTS RESERVED.</p>
+    </footer>
+
+    <script>
+        const menuDrawer = document.getElementById('menuDrawer');
+        document.getElementById('menuOpen').addEventListener('click', () => {
+            menuDrawer.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        document.getElementById('menuClose').addEventListener('click', () => {
+            menuDrawer.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+    </script>
+</body>
+</html>
